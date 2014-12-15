@@ -1,6 +1,5 @@
 FROM ubuntu:14.04
 MAINTAINER Junichi Kajiwara<junichi.kajiwara@gmail.com>
-RUN echo ""
 RUN apt-get update
 
 # 絶対ダイアログは出さない
@@ -12,7 +11,8 @@ ENV MOSAIC_SRC_URL ftp://ftp.ncsa.uiuc.edu/Web/Mosaic/Unix/source/Mosaic-src-2.7
 # Mosaicに必要なライブラリを入れる
 RUN apt-get install --no-install-recommends -y libmotif-dev libjpeg62-dev libpng12-dev zlib1g-dev
 RUN apt-get install --fix-missing --no-install-recommends -y wget patch build-essential libxt-dev \
-  libxmu-headers libxext-dev libxmu-dev git x11vnc python python-numpy unzip Xvfb openbox geany
+  libxmu-headers libxext-dev libxmu-dev git x11vnc python python-numpy unzip Xvfb openbox geany \
+  ca-certificates xterm
 
 # 絶対ダイアログは出さないを戻しとく
 ENV DEBIAN_FRONTEND dialog
@@ -38,7 +38,7 @@ RUN cp /root/work/Mosaic-src/src/Mosaic /usr/local/bin
 ENV HOME /root
 # Define working directory.
 WORKDIR /root
-RUN apt-get install -y ca-certificates xterm
+
 RUN cd /root && git clone https://github.com/kanaka/noVNC.git
 RUN ln -s /usr/local/bin/Mosaic /usr/local/bin/x-www-browser
 ADD startup.sh /startup.sh
