@@ -33,9 +33,19 @@ RUN cd /root/work/ &&  patch -p0 < mosaic.patch && cd Mosaic-src && make
 # Mosaicのインストール
 RUN cp /root/work/Mosaic-src/src/Mosaic /usr/local/bin
 
+RUN apt-get install -y git x11vnc python python-numpy unzip Xvfb openbox geany
+RUN cd /root && git clone https://github.com/kanaka/noVNC.git
+ADD startup.sh /startup.sh
+RUN chmod 0755 /startup.sh
+
 # Set environment variables.
 ENV HOME /root
 # Define working directory.
 WORKDIR /root
+run mkdir /root/.vnc
+run x11vnc -storepasswd 1234 ~/.vnc/passwd
+run bash -c 'echo "Mosaic" >> ~/.bashrc'
+
 # Define default command.
 CMD ["bash"]
+EXPOSE 6080
