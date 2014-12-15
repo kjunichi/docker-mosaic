@@ -1,0 +1,2143 @@
+diff -crN Mosaic-src/Makefile Mosaic-src_p2/Makefile
+*** Mosaic-src/Makefile	Fri Jun 28 05:41:25 1996
+--- Mosaic-src_p2/Makefile	Mon Dec  8 02:25:22 2014
+***************
+*** 1,186 ****
+! ##
+! ## Toplevel Makefile for all Makefiles
+! ##
+! 
+! ##
+! ## Scott Powers
+! ##
+! 
+! all: dev_$(DEV_ARCH)
+! 
+! list: dev_
+! help: dev_
+! dev_::
+! 	@echo "You must specify one of the following or set the environment variable"
+! 	@echo "[DEV_ARCH] to one of the following:"
+! 	@echo "  alpha -- DEC Alpha AXP running OSF/1"
+! 	@echo "  bsdi -- x86 running BSDI BSD/OS 2.1"
+! 	@echo "  dec -- DEC 2100 running Ultrix 4.3"
+! 	@echo "  hp -- HP 9000/735 running HP-UX A.09.01"
+! 	@echo "  ibm -- IBM RS6000 running AIX 4.4 BSD"
+! 	@echo "  indy -- SGI Indy running IRIX 5.3"
+! 	@echo "  linux -- x86 running Linux 1.2.13 DYNAMIC"
+! 	@echo "  linux-static -- x86 running Linux 1.2.13 ALL STATIC"
+! 	@echo "  linux-static-motif -- x86 running Linux 1.2.13 STATIC MOTIF"
+! 	@echo "  sco -- x86 running SCO System V 3.2"
+! 	@echo "  sgi -- SGI Iris running IRIS 4.0.2"
+! 	@echo "  solaris-23 -- SPARCstation 20 running Solaris 2.3"
+! 	@echo "  solaris-24 -- SPARCstation 20 running Solaris 2.4"
+! 	@echo "  solaris-24-x86 -- x86 running Solaris 2.4 for x86"
+! 	@echo "  sun -- SPARCserver 690MP running SunOS 4.1.3"
+! 	@echo "  sun-lresolv -- SPARCserver 690MP running SunOS 4.1.3"
+! 	@echo " "
+! 	@echo "To make a Purify or Quantify version of Mosaic, put a 'p_' or"
+! 	@echo "  'q_' in front of the platform."
+! 	@echo "If your OS is not listed, you will need to copy one of the"
+! 	@echo "  the Makefiles.OS in the 'makefiles' directory, edit it for"
+! 	@echo "  your system, edit this Makefile to add your system, compile,"
+! 	@echo "  and send in your changes to: mosaic-x@ncsa.uiuc.edu."
+! 
+! purifyd:
+! 	$(MAKE) p_$(DEV_ARCH)
+! 
+! quantifyd:
+! 	$(MAKE) q_$(DEV_ARCH)
+! 
+! rm_and_touch:
+! 	@rm -f config.h
+! 	@touch config.h
+! 
+! dev_alpha: rm_and_touch alpha
+! alpha: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.alpha DEV_ARCH=alpha
+! p_alpha: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.alpha purifyd DEV_ARCH=alpha
+! q_alpha: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.alpha quantifyd DEV_ARCH=alpha
+! 
+! dev_bsdi: rm_and_touch bsdi
+! bsdi: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.bsdi DEV_ARCH=bsdi
+! p_bsdi: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.bsdi purifyd DEV_ARCH=bsdi
+! q_bsdi: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.bsdi quantifyd DEV_ARCH=bsdi
+! 
+! dev_dec: rm_and_touch dec
+! dec: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.dec DEV_ARCH=dec
+! p_dec: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.dec purifyd DEV_ARCH=dec
+! q_dec: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.dec quantifyd DEV_ARCH=dec
+! 
+! dev_hp: rm_and_touch hp
+! hp: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.hp DEV_ARCH=hp
+! p_hp: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.hp purifyd DEV_ARCH=hp
+! q_hp: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.hp quantifyd DEV_ARCH=hp
+! 
+! dev_ibm: rm_and_touch ibm
+! ibm: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.ibm DEV_ARCH=ibm
+! p_ibm: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.ibm purifyd DEV_ARCH=ibm
+! q_ibm: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.ibm quantifyd DEV_ARCH=ibm
+! 
+! dev_indy: rm_and_touch indy
+! indy: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.indy DEV_ARCH=indy
+! p_indy: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.indy purifyd DEV_ARCH=indy
+! q_indy: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.indy quantifyd DEV_ARCH=indy
+! 
+! dev_linux: rm_and_touch linux
+! linux: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux DEV_ARCH=linux
+! p_linux: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux purifyd DEV_ARCH=linux
+! q_linux: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux quantifyd DEV_ARCH=linux
+! 
+! dev_linux_static: rm_and_touch linux_static
+! linux_static: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux staticd DEV_ARCH=linux
+! p_linux_static: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux p_staticd DEV_ARCH=linux
+! q_linux_static: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux q_staticd DEV_ARCH=linux
+! 
+! dev_linux_static_motif: rm_and_touch linux_static_motif
+! linux_static_motif: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux static_motifd DEV_ARCH=linux
+! p_linux_static_motif: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux p_static_motifd DEV_ARCH=linux
+! q_linux_static_motif: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.linux q_static_motifd DEV_ARCH=linux
+! 
+! dev_sco: rm_and_touch sco
+! sco: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sco DEV_ARCH=sco
+! p_sco: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sco purifyd DEV_ARCH=sco
+! q_sco: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sco quantifyd DEV_ARCH=sco
+! 
+! dev_sgi: rm_and_touch sgi
+! sgi: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sgi DEV_ARCH=sgi
+! p_sgi: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sgi purifyd DEV_ARCH=sgi
+! q_sgi: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sgi quantifyd DEV_ARCH=sgi
+! 
+! dev_solaris-23: rm_and_touch solaris-23
+! solaris-23: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-23 DEV_ARCH=solaris-23
+! p_solaris-23: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-23 purifyd DEV_ARCH=solaris-23
+! q_solaris-23: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-23 quantifyd DEV_ARCH=solaris-23
+! 
+! dev_solaris-24: rm_and_touch solaris-24
+! solaris-24: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-24 DEV_ARCH=solaris-24
+! p_solaris-24: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-24 purifyd DEV_ARCH=solaris-24
+! q_solaris-24: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-24 quantifyd DEV_ARCH=solaris-24
+! 
+! dev_solaris-24-x86: rm_and_touch solaris-24-x86
+! solaris-24-x86: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-24-x86 DEV_ARCH=solaris-24-x86
+! p_solaris-24-x86: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-24-x86 purifyd DEV_ARCH=solaris-24-x86
+! q_solaris-24-x86: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.solaris-24-x86 quantifyd DEV_ARCH=solaris-24-x86
+! 
+! dev_sun: rm_and_touch sun
+! sun: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sun DEV_ARCH=sun
+! p_sun: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sun purifyd DEV_ARCH=sun
+! q_sun: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sun quantifyd DEV_ARCH=sun
+! 
+! dev_sun-lresolv: rm_and_touch sun-lresolv
+! sun-lresolv: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sun-lresolv DEV_ARCH=sun-lresolv
+! p_sun-lresolv: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sun-lresolv purifyd DEV_ARCH=sun-lresolv
+! q_sun-lresolv: rm_and_touch
+! 	$(MAKE) -f makefiles/Makefile.sun-lresolv quantifyd DEV_ARCH=sun-lresolv
+  
+  clean:
+! 	cd libXmx; $(MAKE) clean
+! 	cd libdtm; $(MAKE) clean
+! 	cd libhtmlw; $(MAKE) clean
+! 	cd libnet; $(MAKE) clean
+! 	cd libnut; $(MAKE) clean
+! 	cd libwww2; $(MAKE) clean
+! 	cd src; $(MAKE) clean MOSAIC="Mosaic"
+! 	@echo "Done cleaning..."
+--- 1,126 ----
+! # Generated automatically from Makefile.in by configure.
+! #/****************************************************************************
+! # * NCSA Mosaic for the X Window System                                      *
+! # * Software Development Group                                               *
+! # * National Center for Supercomputing Applications                          *
+! # * University of Illinois at Urbana-Champaign                               *
+! # * 605 E. Springfield, Champaign IL 61820                                   *
+! # * mosaic@ncsa.uiuc.edu                                                     *
+! # *                                                                          *
+! # * Copyright (C) 1993, Board of Trustees of the University of Illinois      *
+! # *                                                                          *
+! # * NCSA Mosaic software, both binary and source (hereafter, Software) is    *
+! # * copyrighted by The Board of Trustees of the University of Illinois       *
+! # * (UI), and ownership remains with the UI.                                 *
+! # *                                                                          *
+! # * The UI grants you (hereafter, Licensee) a license to use the Software    *
+! # * for academic, research and internal business purposes only, without a    *
+! # * fee.  Licensee may distribute the binary and source code (if released)   *
+! # * to third parties provided that the copyright notice and this statement   *
+! # * appears on all copies and that no charge is associated with such         *
+! # * copies.                                                                  *
+! # *                                                                          *
+! # * Licensee may make derivative works.  However, if Licensee distributes    *
+! # * any derivative work based on or derived from the Software, then          *
+! # * Licensee will (1) notify NCSA regarding its distribution of the          *
+! # * derivative work, and (2) clearly notify users that such derivative       *
+! # * work is a modified version and not the original NCSA Mosaic              *
+! # * distributed by the UI.                                                   *
+! # *                                                                          *
+! # * Any Licensee wishing to make commercial use of the Software should       *
+! # * contact the UI, c/o NCSA, to negotiate an appropriate license for such   *
+! # * commercial use.  Commercial use includes (1) integration of all or       *
+! # * part of the source code into a product for sale or license by or on      *
+! # * behalf of Licensee to third parties, or (2) distribution of the binary   *
+! # * code or source code to third parties that need it to utilize a           *
+! # * commercial product sold or licensed by or on behalf of Licensee.         *
+! # *                                                                          *
+! # * UI MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THIS SOFTWARE FOR   *
+! # * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED          *
+! # * WARRANTY.  THE UI SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY THE    *
+! # * USERS OF THIS SOFTWARE.                                                  *
+! # *                                                                          *
+! # * By using or copying this Software, Licensee agrees to abide by the       *
+! # * copyright law and all other applicable laws of the U.S. including, but   *
+! # * not limited to, export control laws, and the terms of this license.      *
+! # * UI shall have the right to terminate this license immediately by         *
+! # * written notice upon Licensee's breach of, or non-compliance with, any    *
+! # * of its terms.  Licensee may be held legally responsible for any          *
+! # * copyright infringement that is caused or encouraged by Licensee's        *
+! # * failure to abide by the terms of this license.                           *
+! # *                                                                          *
+! # * Comments and questions are welcome and can be sent to                    *
+! # * mosaic-x@ncsa.uiuc.edu.                                                  *
+! # ****************************************************************************/
+! # Generated automatically from Makefile.in by configure.
+! 
+! # end of variables: The remaining are the basic targets 
+! 
+! dtmdirs=
+! bindir=${exec_prefix}/bin
+! 
+! all: default
+! 
+! default: $(dtmdirs) libwww2 libXmx libhtmlw libnut src
+! 	@echo \*\*\* Welcome to NCSA Mosaic.
+! 
+! purifyd: $(dtmdirs) libwww2 libXmx libhtmlw libnut src-purifyd
+! 	@echo \*\*\* Welcome to Purify'd NCSA Mosaic.
+! 
+! quantifyd: $(dtmdirs) libwww2 libXmx libhtmlw libnut src-quantifyd
+! 	@echo \*\*\* Welcome to Quantify'd NCSA Mosaic.
+! 
+! libXmx::
+! 	@echo --- Building libXmx
+! 	cd libXmx; $(MAKE)
+! 
+! libhtmlw::
+! 	@echo --- Building libhtmlw
+! 	cd libhtmlw; $(MAKE)
+! libwww2::
+! 	@echo --- Building libwww2
+! 	cd libwww2; $(MAKE) 
+! 
+! libnut::
+! 	@echo --- Building libnut
+! 	cd libnut; $(MAKE)
+! 
+! src::
+! 	@echo --- Building src
+! 	cd src; $(MAKE) MOSAIC=Mosaic
+! 
+! src-purifyd::
+! 	@echo --- Building Purify'd src
+! 	cd src; $(MAKE) PURIFY=purify MOSAIC=Mosaic-p
+! 
+! src-quantifyd::
+! 	@echo --- Building Quantify'd src
+! 	cd src; $(MAKE) PURIFY=quantify MOSAIC=Mosaic-q
+! 
+! libnet::
+! 	@echo --- Building libnet
+! 	cd libnet; $(MAKE)
+! 
+! libdtm::
+! 	@echo --- Building libdtm
+! 	cd libdtm; $(MAKE)
+  
+  clean:
+! 	rm config.cache config.h config.status *~ core config.log
+! 	cd libXmx; $(MAKE) $@
+! 	cd libhtmlw; $(MAKE) $@
+! 	cd libwww2; $(MAKE) $@
+! 	cd src; $(MAKE) MOSAIC=Mosaic $@
+! 	cd libnet; $(MAKE) $@
+! 	cd libdtm; $(MAKE) $@
+! 	cd libnut; $(MAKE) $@
+! 
+! wclean:
+! 	cd libhtmlw; $(MAKE) $@
+! 	cd src; $(MAKE) MOSAIC=Mosaic $@
+! 
+! install: 
+! 	$(INSTALL) ./src/Mosaic $(bindir)/
+! 
+! uninstall:
+! 	$(UNINSTALL) $(bindir)/Mosaic
+diff -crN Mosaic-src/config Mosaic-src_p2/config
+*** Mosaic-src/config	Tue Jun 25 08:33:18 1996
+--- Mosaic-src_p2/config	Mon Dec  8 01:48:03 2014
+***************
+*** 9,21 ****
+  # you can just enter /usr/local (the default) for every field.
+  #
+  # Where to find jpeg stuff
+! jpegdir=/usr/local
+  
+  # Where to find libz (don't need any headers)
+! zdir=/usr/local
+  
+  # Where to find png stuff
+! pngdir=/usr/local
+  
+  # Where to find wais stuff
+  waisdir=
+--- 9,21 ----
+  # you can just enter /usr/local (the default) for every field.
+  #
+  # Where to find jpeg stuff
+! jpegdir=$HOME/mosaicLibs
+  
+  # Where to find libz (don't need any headers)
+! zdir=$HOME/mosaicLibs
+  
+  # Where to find png stuff
+! pngdir=$HOME/mosaicLibs
+  
+  # Where to find wais stuff
+  waisdir=
+diff -crN Mosaic-src/config.cache Mosaic-src_p2/config.cache
+*** Mosaic-src/config.cache	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/config.cache	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,70 ----
++ # This file is a shell script that caches the results of configure
++ # tests run on this system so they can be shared between configure
++ # scripts and configure runs.  It is not useful on other systems.
++ # If it contains results you don't want to keep, you may remove or edit it.
++ #
++ # By default, configure uses ./config.cache as the cache file,
++ # creating it if it does not exist already.  You can give configure
++ # the --cache-file=FILE option to use a different cache file; that is
++ # what configure does when it calls configure scripts in
++ # subdirectories, so they share the cache.
++ # Giving --cache-file=/dev/null disables caching, for debugging configure.
++ # config.status only pays attention to the cache file if you give it the
++ # --recheck option to rerun configure.
++ #
++ ac_cv_c_const=${ac_cv_c_const=''yes''}
++ ac_cv_c_cross=${ac_cv_c_cross=''no''}
++ ac_cv_func_gethostbyname=${ac_cv_func_gethostbyname=''yes''}
++ ac_cv_func_gethostname=${ac_cv_func_gethostname=''yes''}
++ ac_cv_func_mkdir=${ac_cv_func_mkdir=''yes''}
++ ac_cv_func_socket=${ac_cv_func_socket=''yes''}
++ ac_cv_func_strftime=${ac_cv_func_strftime=''yes''}
++ ac_cv_func_strstr=${ac_cv_func_strstr=''yes''}
++ ac_cv_func_uname=${ac_cv_func_uname=''yes''}
++ ac_cv_func_vfork=${ac_cv_func_vfork=''yes''}
++ ac_cv_func_vprintf=${ac_cv_func_vprintf=''yes''}
++ ac_cv_func_wait3=${ac_cv_func_wait3=''yes''}
++ ac_cv_have_x=${ac_cv_have_x=''have_x=yes 		ac_x_includes= ac_x_libraries=''}
++ ac_cv_header_dirent_dirent_h=${ac_cv_header_dirent_dirent_h=''yes''}
++ ac_cv_header_fcntl_h=${ac_cv_header_fcntl_h=''yes''}
++ ac_cv_header_limits_h=${ac_cv_header_limits_h=''yes''}
++ ac_cv_header_stdc=${ac_cv_header_stdc=''yes''}
++ ac_cv_header_sys_file_h=${ac_cv_header_sys_file_h=''yes''}
++ ac_cv_header_sys_ioctl_h=${ac_cv_header_sys_ioctl_h=''yes''}
++ ac_cv_header_sys_time_h=${ac_cv_header_sys_time_h=''yes''}
++ ac_cv_header_sys_wait_h=${ac_cv_header_sys_wait_h=''yes''}
++ ac_cv_header_termio_h=${ac_cv_header_termio_h=''yes''}
++ ac_cv_header_time=${ac_cv_header_time=''yes''}
++ ac_cv_header_unistd_h=${ac_cv_header_unistd_h=''yes''}
++ ac_cv_header_vfork_h=${ac_cv_header_vfork_h=''no''}
++ ac_cv_lib_ICE_IceProcessMessages=${ac_cv_lib_ICE_IceProcessMessages=''yes''}
++ ac_cv_lib_PW_Freeend=${ac_cv_lib_PW_Freeend=''no''}
++ ac_cv_lib_SM_SmcCloseConnection=${ac_cv_lib_SM_SmcCloseConnection=''yes''}
++ ac_cv_lib_X11_XSendEvent=${ac_cv_lib_X11_XSendEvent=''yes''}
++ ac_cv_lib_Xext_XShapeQueryExtension=${ac_cv_lib_Xext_XShapeQueryExtension=''yes''}
++ ac_cv_lib_Xm_XmCreatePushButton=${ac_cv_lib_Xm_XmCreatePushButton=''yes''}
++ ac_cv_lib_Xmu__XEditResCheckMessages=${ac_cv_lib_Xmu__XEditResCheckMessages=''yes''}
++ ac_cv_lib_Xpm__XpmFreeXpmImage=${ac_cv_lib_Xpm__XpmFreeXpmImage=''no''}
++ ac_cv_lib_Xt_XtAppMainLoop=${ac_cv_lib_Xt_XtAppMainLoop=''yes''}
++ ac_cv_lib_dir_opendir=${ac_cv_lib_dir_opendir=''no''}
++ ac_cv_lib_gen_regex=${ac_cv_lib_gen_regex=''no''}
++ ac_cv_lib_ipc_ipc_chains=${ac_cv_lib_ipc_ipc_chains=''no''}
++ ac_cv_lib_m_pow=${ac_cv_lib_m_pow=''yes''}
++ ac_cv_lib_nsl_gethostname=${ac_cv_lib_nsl_gethostname=''yes''}
++ ac_cv_lib_socket_getsockopt=${ac_cv_lib_socket_getsockopt=''no''}
++ ac_cv_path_install=${ac_cv_path_install=''/usr/bin/install -c''}
++ ac_cv_prog_AR=${ac_cv_prog_AR=''ar''}
++ ac_cv_prog_CC=${ac_cv_prog_CC=''gcc''}
++ ac_cv_prog_CPP=${ac_cv_prog_CPP=''gcc -E''}
++ ac_cv_prog_RANLIB=${ac_cv_prog_RANLIB=''ranlib''}
++ ac_cv_prog_gcc=${ac_cv_prog_gcc=''yes''}
++ ac_cv_prog_gcc_g=${ac_cv_prog_gcc_g=''yes''}
++ ac_cv_prog_gcc_traditional=${ac_cv_prog_gcc_traditional=''no''}
++ ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set=''yes''}
++ ac_cv_struct_tm=${ac_cv_struct_tm=''time.h''}
++ ac_cv_type_getgroups=${ac_cv_type_getgroups=''gid_t''}
++ ac_cv_type_off_t=${ac_cv_type_off_t=''yes''}
++ ac_cv_type_pid_t=${ac_cv_type_pid_t=''yes''}
++ ac_cv_type_signal=${ac_cv_type_signal=''void''}
++ ac_cv_type_size_t=${ac_cv_type_size_t=''yes''}
++ ac_cv_type_uid_t=${ac_cv_type_uid_t=''yes''}
+diff -crN Mosaic-src/config.h Mosaic-src_p2/config.h
+*** Mosaic-src/config.h	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/config.h	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,39 ----
++ /* config.h.  Generated automatically by configure.  */
++ /* src/config.h.in.  Generated automatically from configure.in by autoheader.  */
++ 
++ /* Define to empty if the keyword does not work.  */
++ /* #undef const */
++ 
++ #define XMOSAIC 1
++ #define PRERELEASE 1
++ 
++ /* Defines for system types */
++ /* #undef ALPHA */
++ /* #undef _BSD */
++ /* #undef DGUX */
++ /* #undef NEXT */
++ /* #undef _HPUX_SOURCE */
++ /* #undef MO_IRIX5 */
++ /* #undef SVR4 */
++ /* #undef SOLARIS */
++ /* #undef SOLARIS23 */
++ /* #undef SOLARIS24 */
++ /* #undef SOLARIS24X86 */
++ /* #undef SCO */
++ /* #undef SUN */
++ /* #undef CONVEX */
++ /* #undef MOTOROLA */
++ /* #undef BROKEN_MOTIF */
++ 
++ /* external software packages */
++ #define HAVE_JPEG 1 
++ #define HAVE_PNG 1
++ /* #undef HAVE_DTM */
++ /* #undef HAVE_WAIS */
++ 
++ 
++ /* define to figure motif version (does anybody use 1.0?)*/
++ #define MOTIF 1
++ #define MOTIF1_1 1
++ /* #undef MOTIF1_2 */
++ /* #undef MOTIF2_0 */
+diff -crN Mosaic-src/config.log Mosaic-src_p2/config.log
+*** Mosaic-src/config.log	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/config.log	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,110 ----
++ This file contains any messages produced by compilers while
++ running configure, to aid debugging if configure makes a mistake.
++ 
++ configure:623: gcc -E conftest.c
++ configure:996: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1100: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1175: gcc -o conftest -g -O   conftest.c -lXt  1>&5
++ configure:1277: gcc -c -g -O  conftest.c 1>&5
++ configure:1320: gcc -o conftest -g -O   conftest.c -ldir   1>&5
++ /usr/bin/ld: cannot find -ldir
++ collect2: error: ld returned 1 exit status
++ configure:1392: gcc -o conftest -g -O   conftest.c  1>&5
++ configure:1418: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1483: gcc -o conftest -g -O   conftest.c  1>&5
++ configure: In function 'main':
++ configure:1478:67: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
++  if (XOR (islower (i), ISLOWER (i)) || toupper (i) != TOUPPER (i)) exit(2);
++                                                                    ^
++ configure:1524: gcc -c -g -O  conftest.c 1>&5
++ configure:1556: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1556: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1556: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1556: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1556: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1556: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1556: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:1601: gcc -o conftest -g -O   conftest.c -lm   1>&5
++ configure:1593:6: warning: conflicting types for built-in function 'pow' [enabled by default]
++  char pow();
++       ^
++ configure:1645: gcc -o conftest -g -O   conftest.c -lnsl  -lm  1>&5
++ configure:1689: gcc -o conftest -g -O   conftest.c -lgen  -lnsl -lm  1>&5
++ /usr/bin/ld: cannot find -lgen
++ collect2: error: ld returned 1 exit status
++ configure:1733: gcc -o conftest -g -O   conftest.c -lsocket  -lnsl -lm  1>&5
++ /usr/bin/ld: cannot find -lsocket
++ collect2: error: ld returned 1 exit status
++ configure:1777: gcc -o conftest -g -O   conftest.c -lPW  -lnsl -lm  1>&5
++ /usr/bin/ld: cannot find -lPW
++ collect2: error: ld returned 1 exit status
++ configure:1821: gcc -o conftest -g -O   conftest.c -lipc  -lnsl -lm  1>&5
++ /usr/bin/ld: cannot find -lipc
++ collect2: error: ld returned 1 exit status
++ configure:1866: gcc -o conftest -g -O   conftest.c -lX11  -lnsl -lm  1>&5
++ configure:1910: gcc -o conftest -g -O   conftest.c -lXpm  -lX11 -lnsl -lm  1>&5
++ /tmp/ccxqKNyV.o: In function `t':
++ /root/work/Mosaic-src_p2/configure:1906: undefined reference to `_XpmFreeXpmImage'
++ collect2: error: ld returned 1 exit status
++ configure:1954: gcc -o conftest -g -O   conftest.c -lICE  -lX11 -lnsl -lm  1>&5
++ configure:1998: gcc -o conftest -g -O   conftest.c -lSM  -lICE -lX11 -lnsl -lm  1>&5
++ configure:2042: gcc -o conftest -g -O   conftest.c -lXext  -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:2086: gcc -o conftest -g -O   conftest.c -lXt  -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:2130: gcc -o conftest -g -O   conftest.c -lXmu  -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:2174: gcc -o conftest -g -O   conftest.c -lXm  -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:2254: gcc -c -g -O  conftest.c 1>&5
++ configure:2381: gcc -c -g -O  conftest.c 1>&5
++ configure:2414: gcc -c -g -O  conftest.c 1>&5
++ configure:2500: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure: In function 'main':
++ configure:2495:3: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
++    exit ((n > 0 && gidset[n] != val.gval) ? 1 : 0);
++    ^
++ configure:2602: gcc -c -g -O  conftest.c 1>&5
++ configure:2630: gcc -E  conftest.c >/dev/null 2>conftest.out
++ configure:2626:19: fatal error: vfork.h: No such file or directory
++  #include <vfork.h>
++                    ^
++ compilation terminated.
++ configure:2798: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure: In function 'main':
++ configure:2781:5: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
++      exit(
++      ^
++ configure: In function 'sparc_address_test':
++ configure:2736:12: warning: ignoring return value of 'write', declared with attribute warn_unused_result [-Wunused-result]
++        write(-1, "", 0);
++             ^
++ configure:2845: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:2828:6: warning: conflicting types for built-in function 'vprintf' [enabled by default]
++  char vprintf();
++       ^
++ configure:2956: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure: In function 'main':
++ configure:2945:5: warning: incompatible implicit declaration of built-in function '_exit' [enabled by default]
++      _exit(0);
++      ^
++ configure:2950:5: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
++      exit(r.ru_nvcsw == 0 && r.ru_majflt == 0 && r.ru_minflt == 0
++      ^
++ configure:3005: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3005: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3005: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3005: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3005: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:2988:6: warning: conflicting types for built-in function 'strftime' [enabled by default]
++  char $ac_func();
++       ^
++ configure:3005: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:2988:6: warning: conflicting types for built-in function 'strstr' [enabled by default]
++  char $ac_func();
++       ^
++ configure:3005: gcc -o conftest -g -O   conftest.c -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3071: gcc -o conftest -g -O  -I/root/mosaicLibs  conftest.c /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3147: gcc -o conftest -g -O  -I/root/mosaicLibs  conftest.c /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3213: gcc -o conftest -g -O  -I/root/mosaicLibs -I/root/mosaicLibs  conftest.c /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3301: gcc -o conftest -g -O  -I/root/mosaicLibs -I/root/mosaicLibs  conftest.c /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm  1>&5
++ configure:3291:27: fatal error: XmStrDefs.h: No such file or directory
++       #include<XmStrDefs.h>
++                            ^
++ compilation terminated.
+diff -crN Mosaic-src/config.status Mosaic-src_p2/config.status
+*** Mosaic-src/config.status	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/config.status	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,355 ----
++ #! /bin/sh
++ # Generated automatically by configure.
++ # Run this file to recreate the current configuration.
++ # This directory was configured as follows,
++ # on host 0530e4451ffa:
++ #
++ # ./configure  --with-jpegdir=/root/mosaicLibs --with-zdir=/root/mosaicLibs --with-pngdir=/root/mosaicLibs --with-wais= --with-hdfdir= --enable-dtm=no
++ #
++ # Compiler output produced by configure, useful for debugging
++ # configure, is in ./config.log if it exists.
++ 
++ ac_cs_usage="Usage: ./config.status [--recheck] [--version] [--help]"
++ for ac_option
++ do
++   case "$ac_option" in
++   -recheck | --recheck | --rechec | --reche | --rech | --rec | --re | --r)
++     echo "running ${CONFIG_SHELL-/bin/sh} ./configure  --with-jpegdir=/root/mosaicLibs --with-zdir=/root/mosaicLibs --with-pngdir=/root/mosaicLibs --with-wais= --with-hdfdir= --enable-dtm=no --no-create --no-recursion"
++     exec ${CONFIG_SHELL-/bin/sh} ./configure  --with-jpegdir=/root/mosaicLibs --with-zdir=/root/mosaicLibs --with-pngdir=/root/mosaicLibs --with-wais= --with-hdfdir= --enable-dtm=no --no-create --no-recursion ;;
++   -version | --version | --versio | --versi | --vers | --ver | --ve | --v)
++     echo "./config.status generated by autoconf version 2.10"
++     exit 0 ;;
++   -help | --help | --hel | --he | --h)
++     echo "$ac_cs_usage"; exit 0 ;;
++   *) echo "$ac_cs_usage"; exit 1 ;;
++   esac
++ done
++ 
++ ac_given_srcdir=.
++ ac_given_INSTALL="/usr/bin/install -c"
++ 
++ trap 'rm -fr Makefile src/Makefile libhtmlw/Makefile libnut/Makefile libwww2/Makefile libXmx/Makefile config.h conftest*; exit 1' 1 2 15
++ 
++ # Protect against being on the right side of a sed subst in config.status.
++ sed 's/%@/@@/; s/@%/@@/; s/%g$/@g/; /@g$/s/[\\&%]/\\&/g;
++  s/@@/%@/; s/@@/@%/; s/@g$/%g/' > conftest.subs <<\CEOF
++ /^[ 	]*VPATH[ 	]*=[^:]*$/d
++ 
++ s%@CFLAGS@%-g -O%g
++ s%@CPPFLAGS@% -I/root/mosaicLibs -I/root/mosaicLibs%g
++ s%@CXXFLAGS@%%g
++ s%@DEFS@%-DHAVE_CONFIG_H%g
++ s%@LDFLAGS@%%g
++ s%@LIBS@%/root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm %g
++ s%@exec_prefix@%${prefix}%g
++ s%@prefix@%/usr/local%g
++ s%@program_transform_name@%s,x,x,%g
++ s%@bindir@%${exec_prefix}/bin%g
++ s%@sbindir@%${exec_prefix}/sbin%g
++ s%@libexecdir@%${exec_prefix}/libexec%g
++ s%@datadir@%${prefix}/share%g
++ s%@sysconfdir@%${prefix}/etc%g
++ s%@sharedstatedir@%${prefix}/com%g
++ s%@localstatedir@%${prefix}/var%g
++ s%@libdir@%${exec_prefix}/lib%g
++ s%@includedir@%${prefix}/include%g
++ s%@oldincludedir@%/usr/include%g
++ s%@infodir@%${prefix}/info%g
++ s%@mandir@%${prefix}/man%g
++ s%@CC@%gcc%g
++ s%@INSTALL_PROGRAM@%${INSTALL}%g
++ s%@INSTALL_DATA@%${INSTALL} -m 644%g
++ s%@SET_MAKE@%%g
++ s%@RANLIB@%ranlib%g
++ s%@AR@%ar%g
++ s%@host@%%g
++ s%@host_alias@%x86_64-unknown-linux%g
++ s%@host_cpu@%%g
++ s%@host_vendor@%%g
++ s%@host_os@%%g
++ s%@CPP@%gcc -E%g
++ s%@dtmdirs@%%g
++ 
++ CEOF
++ 
++ CONFIG_FILES=${CONFIG_FILES-"Makefile src/Makefile libhtmlw/Makefile libnut/Makefile libwww2/Makefile libXmx/Makefile"}
++ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
++   # Support "outfile[:infile]", defaulting infile="outfile.in".
++   case "$ac_file" in
++   *:*) ac_file_in=`echo "$ac_file"|sed 's%.*:%%'`
++        ac_file=`echo "$ac_file"|sed 's%:.*%%'` ;;
++   *) ac_file_in="${ac_file}.in" ;;
++   esac
++ 
++   # Adjust relative srcdir, etc. for subdirectories.
++ 
++   # Remove last slash and all that follows it.  Not all systems have dirname.
++   ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
++   if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
++     # The file is in a subdirectory.
++     test ! -d "$ac_dir" && mkdir "$ac_dir"
++     ac_dir_suffix="/`echo $ac_dir|sed 's%^\./%%'`"
++     # A "../" for each directory in $ac_dir_suffix.
++     ac_dots=`echo $ac_dir_suffix|sed 's%/[^/]*%../%g'`
++   else
++     ac_dir_suffix= ac_dots=
++   fi
++ 
++   case "$ac_given_srcdir" in
++   .)  srcdir=.
++       if test -z "$ac_dots"; then top_srcdir=.
++       else top_srcdir=`echo $ac_dots|sed 's%/$%%'`; fi ;;
++   /*) srcdir="$ac_given_srcdir$ac_dir_suffix"; top_srcdir="$ac_given_srcdir" ;;
++   *) # Relative path.
++     srcdir="$ac_dots$ac_given_srcdir$ac_dir_suffix"
++     top_srcdir="$ac_dots$ac_given_srcdir" ;;
++   esac
++ 
++   case "$ac_given_INSTALL" in
++   [/$]*) INSTALL="$ac_given_INSTALL" ;;
++   *) INSTALL="$ac_dots$ac_given_INSTALL" ;;
++   esac
++   echo creating "$ac_file"
++   rm -f "$ac_file"
++   configure_input="Generated automatically from `echo $ac_file_in|sed 's%.*/%%'` by configure."
++   case "$ac_file" in
++   *Makefile*) ac_comsub="1i\\
++ # $configure_input" ;;
++   *) ac_comsub= ;;
++   esac
++   sed -e "$ac_comsub
++ s%@configure_input@%$configure_input%g
++ s%@srcdir@%$srcdir%g
++ s%@top_srcdir@%$top_srcdir%g
++ s%@INSTALL@%$INSTALL%g
++ " -f conftest.subs $ac_given_srcdir/$ac_file_in > $ac_file
++ fi; done
++ rm -f conftest.subs
++ 
++ # These sed commands are passed to sed as "A NAME B NAME C VALUE D", where
++ # NAME is the cpp macro being defined and VALUE is the value it is being given.
++ #
++ # ac_d sets the value in "#define NAME VALUE" lines.
++ ac_dA='s%^\([ 	]*\)#\([ 	]*define[ 	][ 	]*\)'
++ ac_dB='\([ 	][ 	]*\)[^ 	]*%\1#\2'
++ ac_dC='\3'
++ ac_dD='%g'
++ # ac_u turns "#undef NAME" with trailing blanks into "#define NAME VALUE".
++ ac_uA='s%^\([ 	]*\)#\([ 	]*\)undef\([ 	][ 	]*\)'
++ ac_uB='\([ 	]\)%\1#\2define\3'
++ ac_uC=' '
++ ac_uD='\4%g'
++ # ac_e turns "#undef NAME" without trailing blanks into "#define NAME VALUE".
++ ac_eA='s%^\([ 	]*\)#\([ 	]*\)undef\([ 	][ 	]*\)'
++ ac_eB='$%\1#\2define\3'
++ ac_eC=' '
++ ac_eD='%g'
++ 
++ CONFIG_HEADERS=${CONFIG_HEADERS-"config.h"}
++ for ac_file in .. $CONFIG_HEADERS; do if test "x$ac_file" != x..; then
++   # Support "outfile[:infile]", defaulting infile="outfile.in".
++   case "$ac_file" in
++   *:*) ac_file_in=`echo "$ac_file"|sed 's%.*:%%'`
++        ac_file=`echo "$ac_file"|sed 's%:.*%%'` ;;
++   *) ac_file_in="${ac_file}.in" ;;
++   esac
++ 
++   echo creating $ac_file
++ 
++   rm -f conftest.frag conftest.in conftest.out
++   cp $ac_given_srcdir/$ac_file_in conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}PRERELEASE${ac_dB}PRERELEASE${ac_dC}1${ac_dD}
++ ${ac_uA}PRERELEASE${ac_uB}PRERELEASE${ac_uC}1${ac_uD}
++ ${ac_eA}PRERELEASE${ac_eB}PRERELEASE${ac_eC}1${ac_eD}
++ ${ac_dA}XMOSAIC${ac_dB}XMOSAIC${ac_dC}1${ac_dD}
++ ${ac_uA}XMOSAIC${ac_uB}XMOSAIC${ac_uC}1${ac_uD}
++ ${ac_eA}XMOSAIC${ac_eB}XMOSAIC${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_DIRENT_H${ac_dB}HAVE_DIRENT_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_DIRENT_H${ac_uB}HAVE_DIRENT_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_DIRENT_H${ac_eB}HAVE_DIRENT_H${ac_eC}1${ac_eD}
++ ${ac_dA}STDC_HEADERS${ac_dB}STDC_HEADERS${ac_dC}1${ac_dD}
++ ${ac_uA}STDC_HEADERS${ac_uB}STDC_HEADERS${ac_uC}1${ac_uD}
++ ${ac_eA}STDC_HEADERS${ac_eB}STDC_HEADERS${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}HAVE_SYS_WAIT_H${ac_dB}HAVE_SYS_WAIT_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_SYS_WAIT_H${ac_uB}HAVE_SYS_WAIT_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_SYS_WAIT_H${ac_eB}HAVE_SYS_WAIT_H${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_FCNTL_H${ac_dB}HAVE_FCNTL_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_FCNTL_H${ac_uB}HAVE_FCNTL_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_FCNTL_H${ac_eB}HAVE_FCNTL_H${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_LIMITS_H${ac_dB}HAVE_LIMITS_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIMITS_H${ac_uB}HAVE_LIMITS_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIMITS_H${ac_eB}HAVE_LIMITS_H${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_SYS_FILE_H${ac_dB}HAVE_SYS_FILE_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_SYS_FILE_H${ac_uB}HAVE_SYS_FILE_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_SYS_FILE_H${ac_eB}HAVE_SYS_FILE_H${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}HAVE_SYS_IOCTL_H${ac_dB}HAVE_SYS_IOCTL_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_SYS_IOCTL_H${ac_uB}HAVE_SYS_IOCTL_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_SYS_IOCTL_H${ac_eB}HAVE_SYS_IOCTL_H${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_SYS_TIME_H${ac_dB}HAVE_SYS_TIME_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_SYS_TIME_H${ac_uB}HAVE_SYS_TIME_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_SYS_TIME_H${ac_eB}HAVE_SYS_TIME_H${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_TERMIO_H${ac_dB}HAVE_TERMIO_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_TERMIO_H${ac_uB}HAVE_TERMIO_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_TERMIO_H${ac_eB}HAVE_TERMIO_H${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_UNISTD_H${ac_dB}HAVE_UNISTD_H${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_UNISTD_H${ac_uB}HAVE_UNISTD_H${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_UNISTD_H${ac_eB}HAVE_UNISTD_H${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}HAVE_LIBM${ac_dB}HAVE_LIBM${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBM${ac_uB}HAVE_LIBM${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBM${ac_eB}HAVE_LIBM${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_LIBNSL${ac_dB}HAVE_LIBNSL${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBNSL${ac_uB}HAVE_LIBNSL${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBNSL${ac_eB}HAVE_LIBNSL${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_LIBX11${ac_dB}HAVE_LIBX11${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBX11${ac_uB}HAVE_LIBX11${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBX11${ac_eB}HAVE_LIBX11${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_LIBICE${ac_dB}HAVE_LIBICE${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBICE${ac_uB}HAVE_LIBICE${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBICE${ac_eB}HAVE_LIBICE${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}HAVE_LIBSM${ac_dB}HAVE_LIBSM${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBSM${ac_uB}HAVE_LIBSM${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBSM${ac_eB}HAVE_LIBSM${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_LIBXEXT${ac_dB}HAVE_LIBXEXT${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBXEXT${ac_uB}HAVE_LIBXEXT${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBXEXT${ac_eB}HAVE_LIBXEXT${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_LIBXT${ac_dB}HAVE_LIBXT${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBXT${ac_uB}HAVE_LIBXT${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBXT${ac_eB}HAVE_LIBXT${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_LIBXMU${ac_dB}HAVE_LIBXMU${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_LIBXMU${ac_uB}HAVE_LIBXMU${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_LIBXMU${ac_eB}HAVE_LIBXMU${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}MOTIF${ac_dB}MOTIF${ac_dC}1${ac_dD}
++ ${ac_uA}MOTIF${ac_uB}MOTIF${ac_uC}1${ac_uD}
++ ${ac_eA}MOTIF${ac_eB}MOTIF${ac_eC}1${ac_eD}
++ ${ac_dA}TIME_WITH_SYS_TIME${ac_dB}TIME_WITH_SYS_TIME${ac_dC}1${ac_dD}
++ ${ac_uA}TIME_WITH_SYS_TIME${ac_uB}TIME_WITH_SYS_TIME${ac_uC}1${ac_uD}
++ ${ac_eA}TIME_WITH_SYS_TIME${ac_eB}TIME_WITH_SYS_TIME${ac_eC}1${ac_eD}
++ ${ac_dA}GETGROUPS_T${ac_dB}GETGROUPS_T${ac_dC}gid_t${ac_dD}
++ ${ac_uA}GETGROUPS_T${ac_uB}GETGROUPS_T${ac_uC}gid_t${ac_uD}
++ ${ac_eA}GETGROUPS_T${ac_eB}GETGROUPS_T${ac_eC}gid_t${ac_eD}
++ ${ac_dA}RETSIGTYPE${ac_dB}RETSIGTYPE${ac_dC}void${ac_dD}
++ ${ac_uA}RETSIGTYPE${ac_uB}RETSIGTYPE${ac_uC}void${ac_uD}
++ ${ac_eA}RETSIGTYPE${ac_eB}RETSIGTYPE${ac_eC}void${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}HAVE_VPRINTF${ac_dB}HAVE_VPRINTF${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_VPRINTF${ac_uB}HAVE_VPRINTF${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_VPRINTF${ac_eB}HAVE_VPRINTF${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_WAIT3${ac_dB}HAVE_WAIT3${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_WAIT3${ac_uB}HAVE_WAIT3${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_WAIT3${ac_eB}HAVE_WAIT3${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_GETHOSTNAME${ac_dB}HAVE_GETHOSTNAME${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_GETHOSTNAME${ac_uB}HAVE_GETHOSTNAME${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_GETHOSTNAME${ac_eB}HAVE_GETHOSTNAME${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_GETHOSTBYNAME${ac_dB}HAVE_GETHOSTBYNAME${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_GETHOSTBYNAME${ac_uB}HAVE_GETHOSTBYNAME${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_GETHOSTBYNAME${ac_eB}HAVE_GETHOSTBYNAME${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}HAVE_MKDIR${ac_dB}HAVE_MKDIR${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_MKDIR${ac_uB}HAVE_MKDIR${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_MKDIR${ac_eB}HAVE_MKDIR${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_SOCKET${ac_dB}HAVE_SOCKET${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_SOCKET${ac_uB}HAVE_SOCKET${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_SOCKET${ac_eB}HAVE_SOCKET${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_STRFTIME${ac_dB}HAVE_STRFTIME${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_STRFTIME${ac_uB}HAVE_STRFTIME${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_STRFTIME${ac_eB}HAVE_STRFTIME${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_STRSTR${ac_dB}HAVE_STRSTR${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_STRSTR${ac_uB}HAVE_STRSTR${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_STRSTR${ac_eB}HAVE_STRSTR${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}HAVE_UNAME${ac_dB}HAVE_UNAME${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_UNAME${ac_uB}HAVE_UNAME${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_UNAME${ac_eB}HAVE_UNAME${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_JPEG${ac_dB}HAVE_JPEG${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_JPEG${ac_uB}HAVE_JPEG${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_JPEG${ac_eB}HAVE_JPEG${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_PNG${ac_dB}HAVE_PNG${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_PNG${ac_uB}HAVE_PNG${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_PNG${ac_eB}HAVE_PNG${ac_eC}1${ac_eD}
++ ${ac_dA}HAVE_PNG${ac_dB}HAVE_PNG${ac_dC}1${ac_dD}
++ ${ac_uA}HAVE_PNG${ac_uB}HAVE_PNG${ac_uC}1${ac_uD}
++ ${ac_eA}HAVE_PNG${ac_eB}HAVE_PNG${ac_eC}1${ac_eD}
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   cat > conftest.frag <<CEOF
++ ${ac_dA}MOTIF1_1${ac_dB}MOTIF1_1${ac_dC}1${ac_dD}
++ ${ac_uA}MOTIF1_1${ac_uB}MOTIF1_1${ac_uC}1${ac_uD}
++ ${ac_eA}MOTIF1_1${ac_eB}MOTIF1_1${ac_eC}1${ac_eD}
++ s%^[ 	]*#[ 	]*undef[ 	][ 	]*[a-zA-Z_][a-zA-Z_0-9]*%/* & */%
++ CEOF
++   sed -f conftest.frag conftest.in > conftest.out
++   rm -f conftest.in
++   mv conftest.out conftest.in
++ 
++   rm -f conftest.frag conftest.h
++   echo "/* $ac_file.  Generated automatically by configure.  */" > conftest.h
++   cat conftest.in >> conftest.h
++   rm -f conftest.in
++   if cmp -s $ac_file conftest.h 2>/dev/null; then
++     echo "$ac_file is unchanged"
++     rm -f conftest.h
++   else
++     # Remove last slash and all that follows it.  Not all systems have dirname.
++       ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
++       if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
++       # The file is in a subdirectory.
++       test ! -d "$ac_dir" && mkdir "$ac_dir"
++     fi
++     rm -f $ac_file
++     mv conftest.h $ac_file
++   fi
++ fi; done
++ 
++ 
++ 
++ exit 0
+diff -crN Mosaic-src/libXmx/Makefile Mosaic-src_p2/libXmx/Makefile
+*** Mosaic-src/libXmx/Makefile	Thu Apr  4 20:15:50 1996
+--- Mosaic-src_p2/libXmx/Makefile	Mon Dec  8 02:25:22 2014
+***************
+*** 1,3 ****
+--- 1,15 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ RANLIB = ranlib
++ 
+  # You shouldn't need to edit below here.
+  
+  LIBTARGET = libXmx.a
+diff -crN Mosaic-src/libXmx/Makefile.bak Mosaic-src_p2/libXmx/Makefile.bak
+*** Mosaic-src/libXmx/Makefile.bak	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/libXmx/Makefile.bak	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,34 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ RANLIB = ranlib
++ 
++ # You shouldn't need to edit below here.
++ 
++ LIBTARGET = libXmx.a
++ 
++ all: $(LIBTARGET)
++ 
++ CFILES = Xmx.c Xmx2.c
++ 
++ OBJS = $(CFILES:.c=.o)
++ 
++ $(LIBTARGET): $(OBJS)
++ 	-rm -f $(LIBTARGET)
++ 	ar rv $(LIBTARGET) $(OBJS)
++ 	$(RANLIB) $(LIBTARGET)
++ 
++ Xmx.o: Xmx.c Xmx.h XmxP.h
++ Xmx2.o: Xmx2.c Xmx.h XmxP.h
++ 
++ clean:
++ 	-rm $(LIBTARGET) *.o
++ tags:
++ 	etags -t *.[ch]
+Binary files Mosaic-src/libXmx/libXmx.a and Mosaic-src_p2/libXmx/libXmx.a differ
+diff -crN Mosaic-src/libdtm/Makefile.bak Mosaic-src_p2/libdtm/Makefile.bak
+*** Mosaic-src/libdtm/Makefile.bak	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/libdtm/Makefile.bak	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,171 ----
++ #
++ #		Makefile for libdtm
++ #
++ #	USAGE:
++ #		make all - if you have the $ARCH variable set
++ #					setenv ARCH .`arch`
++ #		make sun - if you want to build for the sun
++ #		make XXX - for any machine in particular
++ #		make spec - to build a version libdtmXXX.a  where XXX is $ARCH
++ #
++ 
++ .SUFFIXES:	$(ARCH).o
++ 
++ DTMINC = .
++ 
++ LIBDTM=libdtm.a
++ 
++ OBJ=dtminit.o dtm.o dtmmisc.o socket.o rwrtns.o fatal.o sds.o sdl.o ris.o \
++ 	dtmnserv.o ninit.o nmsg.o callback.o vdata.o
++ 
++ OBJ_SPEC=dtminit$(ARCH).o dtm$(ARCH).o dtmmisc$(ARCH).o socket$(ARCH).o \
++ 	rwrtns$(ARCH).o fatal$(ARCH).o sds$(ARCH).o sdl$(ARCH).o ris$(ARCH).o \
++ 	dtmnserv$(ARCH).o ninit$(ARCH).o nmsg$(ARCH).o callback$(ARCH).o
++ 
++ DEPENDS = make.depend
++ 
++ CFT = cft77
++ FOBJS = dtmf77.o crayinit.o
++ 
++ 
++ dtmlib	: dtm_$(ARCH)
++ all		: dtm_$(ARCH)
++ spec	: $(ARCH)
++ all_spec: $(ARCH)
++ 
++ dtm_.sun4 : sun
++ dtm_.alpha : alpha
++ dtm_.sgi : sgi
++ dtm_.next : next
++ dtm_.cray : cray
++ dtm_.ibm : ibm
++ dtm_.convex : convex
++ dtm_.dec : dec
++ dtm_.vax : vax
++ dtm_.hp : hp
++ 
++ 
++ dtm_	::
++ 	@echo Either set up the ARCH environment or specify a machine type
++ 	@echo "		ex: make sun"
++ 
++ solaris		: 
++ 	make internal "CC=$(CC)" "CFLAGS = -DSUN -DSOLARIS" \
++ 				  "OBJECTS = $(OBJ) convert.o mdd.o"  \
++ 				  "ARCHIVE = ar rv"  \
++ 				  "RANLIB_CMD = /bin/true libdtm.a"
++ 
++ solarisx86	: 
++ 	make internal "CC=$(CC)" "CFLAGS = -DSUN -DSOLARIS" \
++ 				  "OBJECTS = $(OBJ) convert.o mdd.o"  \
++ 				  "ARCHIVE = ar rv"  \
++ 				  "RANLIB_CMD = /bin/true libdtm.a"
++ 
++ alpha		: 
++ 	make internal "CFLAGS = -DOSF1 -target $(TARGET_ARCH:-%=%)" \
++ 				  "OBJECTS = $(OBJ) convert.o mdd.o"  \
++ 				  "ARCHIVE = ar rv"  \
++ 				  "RANLIB_CMD = ranlib libdtm.a" 
++ 
++ linux		:
++ 	make internal "CFLAGS = -DLINUX" \
++ 				  "OBJECTS = $(OBJ) convert.o mdd.o"  \
++ 				  "ARCHIVE = ar rv"  \
++ 				  "RANLIB_CMD = ranlib libdtm.a"
++ 
++ sun4	: sun
++ sun		: 
++ 	make internal "CFLAGS = -DSUN -target $(TARGET_ARCH:-%=%)" \
++ 				  "OBJECTS = $(OBJ) convert.o mdd.o"  \
++ 				  "ARCHIVE = ar rv"  \
++ 				  "RANLIB_CMD = ranlib libdtm.a"
++ .sun4	:
++ 	make internal_spec "CFLAGS = -g -DSUN -target $(TARGET_ARCH:-%=%)" \
++ 				  "OBJECTS = $(OBJ_SPEC) convert$(ARCH).o mdd$(ARCH).o" \
++ 				  "ARCHIVE = ar rv" \
++ 				  "RANLIB_CMD = ranlib libdtm$(ARCH).a"
++ next		: 
++ 	make internal "CFLAGS = -DNEXT " \
++ 				  "OBJECTS = $(OBJ) convert.o mdd.o"  \
++ 				  "ARCHIVE = ar rv"  \
++ 				  "RANLIB_CMD = ranlib libdtm.a"
++ 
++ sgi		:
++ 	make internal "CFLAGS = -DSGI -cckr -I/usr/include/sun -I/usr/include/bsd" \
++ 				"OBJECTS = $(OBJ) convert.o" \
++ 				"ARCHIVE = ar rv" \
++ 				"RANLIB_CMD = "
++ 
++ indy: $(OBJ) convert.o
++ 	ar cr libdtm.a $(OBJ)
++ 
++ .sgi	:
++ 	make internal_spec "CFLAGS = -DSGI -I/usr/include/sun -I/usr/include/bsd" \
++ 				  "OBJECTS = $(OBJ_SPEC) convert$(ARCH).o" \
++ 				  "ARCHIVE = ar rv" \
++ 				  "RANLIB_CMD = "
++ 
++ cray	: 
++ 	make internal "CFLAGS = -DCRAY" "CFT = cft77" \
++ 		"OBJECTS = $(OBJ) craycvt.o crayrtns.o" \
++ 		"ARCHIVE = bld q"  \
++ 		"RANLIB_CMD = "
++ 	make libdtmf77.a "CFLAGS = -DCRAY" "CFT = cft77" \
++ 		"OBJECTS = $(OBJ) craycvt.o crayrtns.o sdsF.o" \
++ 		"ARCHIVE = bld q" 
++ convex	: 
++ 	make internal "CFLAGS = -DCONVEX -fi" \
++ 		"OBJECTS = $(OBJ) mdd.o convert.o" "ARCHIVE = ar rv" \
++ 		"RANLIB_CMD = ranlib libdtm.a"
++ ibm		: 
++ 	make internal "CFLAGS = -DRS6000" "OBJECTS = $(OBJ) mdd.o convert.o" \
++ 			"ARCHIVE = ar rv" \
++ 			"RANLIB_CMD = ranlib libdtm.a"
++ hp		:
++ 	make internal "CFLAGS = -Aa -D_HPUX_SOURCE" "OBJECTS = $(OBJ) mdd.o convert.o" \
++ 			"ARCHIVE = ar rv" \
++ 			"RANLIB_CMD = "
++ dec		: 
++ 	make internal "CFLAGS = -DDEC" "OBJECTS = $(OBJ) mdd.o deccvt.o" \
++ 		"ARCHIVE = ar rv" \
++ 		"RANLIB_CMD = ar ts libdtm.a"
++ vax		: 
++ 	make internal "CFLAGS = -DVAX" "OBJECTS = $(OBJ) mdd.o vaxcvt.o" \
++ 		"ARCHIVE = ar rv" \
++ 		"RANLIB_CMD = "
++ 
++ %$(ARCH).o: %.c
++ 	$(CC) $(CFLAGS) $(DTMCFLAGS) -c $< -o $@
++ 
++ internal : $(LIBDTM)
++ 
++ $(LIBDTM): $(OBJECTS)
++ 	$(ARCHIVE) libdtm.a $(OBJECTS)
++ 	$(RANLIB_CMD)
++ 
++ internal_spec : $(OBJECTS)
++ 	$(ARCHIVE) libdtm$(ARCH).a $(OBJECTS)
++ 	$(RANLIB_CMD)
++ 
++ libdtmf77.a	: $(OBJECTS) $(FOBJS)
++ 	  $(ARCHIVE) libdtmf77.a $(OBJECTS) $(FOBJS)
++ 
++ depend::
++ 	makedepend -f $(DEPENDS) -I$(DTMINC) *.c *.f
++ 	sed -e "s/\.o/$(ARCH).o/1w .depend.temp" -e "d" < $(DEPENDS)
++ 	cat .depend.temp >> $(DEPENDS)
++ 
++ clean::
++ 	-rm -f *.o *.a
++ 
++ install::
++ 	-mv $(DIR)/lib/libdtm.a $(DIR)/lib/libdtm.bak
++ 	cp *.a $(DIR)/lib 
++ 	-ranlib $(DIR)/lib/libdtm.a
++ 	-rm -f $(DIR)/include/dtm.h $(DIR)/include/sds.h
++ 	-rm -f $(DIR)/include/ris.h $(DIR)/include/db.h
++ 	-rm -f $(DIR)/include/mdd.h $(DIR)/include/sdl.h
++ 	-rm -f $(DIR)/include/debug.h $(DIR)/include/arch.h
++ 	cp dtm.h debug.h sds.h ris.h db.h mdd.h sdl.h arch.h $(DIR)/include	
++ 
++ include $(DEPENDS) 
+diff -crN Mosaic-src/libhtmlw/HTML-PSformat.c Mosaic-src_p2/libhtmlw/HTML-PSformat.c
+*** Mosaic-src/libhtmlw/HTML-PSformat.c	Wed Jun 26 23:36:53 1996
+--- Mosaic-src_p2/libhtmlw/HTML-PSformat.c	Mon Dec  8 01:53:51 2014
+***************
+*** 59,65 ****
+   *
+   */
+  #include "../config.h"
+! #include <varargs.h>
+  
+  #include <string.h>
+  #include <stdio.h>
+--- 59,66 ----
+   *
+   */
+  #include "../config.h"
+! //#include <varargs.h>
+! #include <stdarg.h>
+  
+  #include <string.h>
+  #include <stdio.h>
+***************
+*** 229,237 ****
+   *
+   */
+  static int 
+! PSprintf(format, va_alist)
+!     char* format;
+!     va_dcl
+  {
+      int 	len;
+      char 	*s;
+--- 230,238 ----
+   *
+   */
+  static int 
+! PSprintf(char *format, .../*va_alist*/)
+! //    char* format;
+! //    va_dcl
+  {
+      int 	len;
+      char 	*s;
+***************
+*** 251,257 ****
+  	}
+  	PS_string = s;
+      }
+!     va_start(args);
+      len = vsprintf(PS_string+PS_len, format, args);
+      /* this is a hack to make it work on systems were vsprintf(s,...)
+       * returns s, instead of the len.
+--- 252,258 ----
+  	}
+  	PS_string = s;
+      }
+!     va_start(args,format);
+      len = vsprintf(PS_string+PS_len, format, args);
+      /* this is a hack to make it work on systems were vsprintf(s,...)
+       * returns s, instead of the len.
+diff -crN Mosaic-src/libhtmlw/HTML.c Mosaic-src_p2/libhtmlw/HTML.c
+*** Mosaic-src/libhtmlw/HTML.c	Thu Jul 18 07:49:21 1996
+--- Mosaic-src_p2/libhtmlw/HTML.c	Mon Dec  8 01:51:56 2014
+***************
+*** 64,69 ****
+--- 64,70 ----
+  #include <X11/cursorfont.h>
+  
+  #include "../libnut/system.h"
++ #include <Xm/Xm.h>
+  
+  #define	MARGIN_DEFAULT		20
+  #define	CLICK_TIME		500
+***************
+*** 237,247 ****
+  
+  #ifdef MOTIF
+  #ifndef MOTIF1_2
+!    { "Arm",      (XtActionProc) _XmGadgetArm },         /* Motif 1.0 */
+!    { "Activate", (XtActionProc) _XmGadgetActivate },    /* Motif 1.0 */
+!    { "Enter",    (XtActionProc) _XmManagerEnter },      /* Motif 1.0 */
+!    { "FocusIn",  (XtActionProc) _XmManagerFocusIn },    /* Motif 1.0 */
+!    { "Help",     (XtActionProc) _XmManagerHelp },       /* Motif 1.0 */
+  #endif /* not MOTIF1_2 */
+  #endif /* MOTIF */
+  };
+--- 238,248 ----
+  
+  #ifdef MOTIF
+  #ifndef MOTIF1_2
+!   //{ "Arm",      (XtActionProc) _XmGadgetArm },         /* Motif 1.0 */
+!   // { "Activate", (XtActionProc) _XmGadgetActivate },    /* Motif 1.0 */
+!  //  { "Enter",    (XtActionProc) _XmManagerEnter },      /* Motif 1.0 */
+!  //  { "FocusIn",  (XtActionProc) _XmManagerFocusIn },    /* Motif 1.0 */
+!  //ZZ  { "Help",     (XtActionProc) _XmManagerHelp },       /* Motif 1.0 */
+  #endif /* not MOTIF1_2 */
+  #endif /* MOTIF */
+  };
+diff -crN Mosaic-src/libhtmlw/HTMLP.h Mosaic-src_p2/libhtmlw/HTMLP.h
+*** Mosaic-src/libhtmlw/HTMLP.h	Thu Jul 18 07:49:24 1996
+--- Mosaic-src_p2/libhtmlw/HTMLP.h	Mon Dec  8 01:53:30 2014
+***************
+*** 56,62 ****
+  #define HTMLP_H
+  
+  #include "HTML.h"
+! 
+  #ifdef MOTIF
+  #include <Xm/XmP.h>
+  # ifdef MOTIF1_2
+--- 56,64 ----
+  #define HTMLP_H
+  
+  #include "HTML.h"
+! #define MOTIF 1ZZ
+! #include <Xm/Xm.h>
+! #include <Xm/ManagerP.h>
+  #ifdef MOTIF
+  #include <Xm/XmP.h>
+  # ifdef MOTIF1_2
+***************
+*** 240,248 ****
+  	CorePart		core;
+  	CompositePart		composite;
+  	ConstraintPart		constraint;
+! #ifdef MOTIF
+  	XmManagerPart		manager;
+! #endif /* MOTIF */
+  	HTMLPart		html;
+  } HTMLRec;
+  
+--- 242,250 ----
+  	CorePart		core;
+  	CompositePart		composite;
+  	ConstraintPart		constraint;
+! //jj#ifdef MOTIF
+  	XmManagerPart		manager;
+! //#endif /* MOTIF */
+  	HTMLPart		html;
+  } HTMLRec;
+  
+diff -crN Mosaic-src/libhtmlw/Makefile Mosaic-src_p2/libhtmlw/Makefile
+*** Mosaic-src/libhtmlw/Makefile	Fri Mar  8 01:56:09 1996
+--- Mosaic-src_p2/libhtmlw/Makefile	Mon Dec  8 02:25:22 2014
+***************
+*** 1,3 ****
+--- 1,16 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ 
++ RANLIB = ranlib
++ 
+  LIBTARGET = libhtmlw.a
+  
+  all: $(LIBTARGET)
+diff -crN Mosaic-src/libhtmlw/Makefile.bak Mosaic-src_p2/libhtmlw/Makefile.bak
+*** Mosaic-src/libhtmlw/Makefile.bak	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/libhtmlw/Makefile.bak	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,34 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ 
++ RANLIB = ranlib
++ 
++ LIBTARGET = libhtmlw.a
++ 
++ all: $(LIBTARGET)
++ 
++ CFILES = HTML.c HTMLlists.c HTMLformat.c HTMLparse.c HTMLimages.c HTMLwidgets.c HTML-PSformat.c DrawingArea.c HTMLjot.c HTMLtable.c list.c 
++ 
++ OBJS = $(CFILES:.c=.o)
++ $(OBJS): HTML.h HTMLP.h
++ 
++ 
++ $(LIBTARGET): $(OBJS)
++ 	-rm -f $(LIBTARGET)
++ 	ar rv $(LIBTARGET) $(OBJS)
++ 	$(RANLIB) $(LIBTARGET)
++ 
++ HTMLimages.o: AnchoredImage.xbm DelayedImage.xbm
++ 
++ clean:
++ 	-rm $(LIBTARGET) *.o
++ tags:
++ 	etags -t *.[ch]
+Binary files Mosaic-src/libhtmlw/libhtmlw.a and Mosaic-src_p2/libhtmlw/libhtmlw.a differ
+diff -crN Mosaic-src/libnet/Makefile.bak Mosaic-src_p2/libnet/Makefile.bak
+*** Mosaic-src/libnet/Makefile.bak	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/libnet/Makefile.bak	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,17 ----
++ LIBTARGET = libnet.a
++ 
++ all: $(LIBTARGET)
++ 
++ CFILES = net.c netdata.c list.c mesg.c
++ 
++ OBJS = $(CFILES:.c=.o)
++ 
++ $(LIBTARGET): $(OBJS)
++ 	-rm -f $(LIBTARGET)
++ 	ar rv $(LIBTARGET) $(OBJS)
++ 	$(RANLIB) $(LIBTARGET)
++ 
++ clean:
++ 	-rm $(LIBTARGET) *.o
++ tags:
++ 	etags -t *.[ch]
+diff -crN Mosaic-src/libnut/Makefile Mosaic-src_p2/libnut/Makefile
+*** Mosaic-src/libnut/Makefile	Thu Mar 21 00:48:17 1996
+--- Mosaic-src_p2/libnut/Makefile	Mon Dec  8 02:25:22 2014
+***************
+*** 1,14 ****
+  #
+  # Makefile for libnut (NCSA Unix Tools Library)
+  #
+  
+- CC=gcc
+- CFLAGS=-g -O
+  ODIR=./objs
+  OBJDIR=objs
+  LIB=libnut.a
+  ####Set in main Mosaic Makefile -- uncomment if not compiled under Mosaic
+! #RANLIB=ranlib
+  OBJ=$(ODIR)/mm.o \
+  $(ODIR)/str-tools.o \
+  $(ODIR)/system.o \
+--- 1,24 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ RANLIB = ranlib
++ 
+  #
+  # Makefile for libnut (NCSA Unix Tools Library)
+  #
+  
+  ODIR=./objs
+  OBJDIR=objs
+  LIB=libnut.a
+  ####Set in main Mosaic Makefile -- uncomment if not compiled under Mosaic
+! 
+  OBJ=$(ODIR)/mm.o \
+  $(ODIR)/str-tools.o \
+  $(ODIR)/system.o \
+diff -crN Mosaic-src/libnut/Makefile.bak Mosaic-src_p2/libnut/Makefile.bak
+*** Mosaic-src/libnut/Makefile.bak	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/libnut/Makefile.bak	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,54 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ RANLIB = ranlib
++ 
++ #
++ # Makefile for libnut (NCSA Unix Tools Library)
++ #
++ 
++ ODIR=./objs
++ OBJDIR=objs
++ LIB=libnut.a
++ ####Set in main Mosaic Makefile -- uncomment if not compiled under Mosaic
++ 
++ OBJ=$(ODIR)/mm.o \
++ $(ODIR)/str-tools.o \
++ $(ODIR)/system.o \
++ $(ODIR)/url-utils.o \
++ $(ODIR)/ellipsis.o
++ 
++ all: objs $(LIB)
++ 
++ $(LIB): $(OBJ)
++ 	-rm -f $(LIB)
++ 	ar rv $(LIB) $(OBJ)
++ 	$(RANLIB) $(LIB)
++ 
++ $(ODIR)/mm.o: mm.c mm.h
++ 	$(CC) $(CFLAGS) -c mm.c -o $(ODIR)/mm.o
++ 
++ $(ODIR)/str-tools.o: str-tools.c
++ 	$(CC) $(CFLAGS) -c str-tools.c -o $(ODIR)/str-tools.o
++ 
++ $(ODIR)/system.o: system.c system.h
++ 	$(CC) $(CFLAGS) -c system.c -o $(ODIR)/system.o
++ 
++ $(ODIR)/url-utils.o: url-utils.c url-utils.h
++ 	$(CC) $(CFLAGS) -c url-utils.c -o $(ODIR)/url-utils.o
++ 
++ $(ODIR)/ellipsis.o: ellipsis.c
++ 	$(CC) $(CFLAGS) -c ellipsis.c -o $(ODIR)/ellipsis.o
++ 
++ objs:
++ 	mkdir objs
++ 
++ clean:
++ 	rm -f $(LIB) $(OBJ)
+Binary files Mosaic-src/libnut/libnut.a and Mosaic-src_p2/libnut/libnut.a differ
+diff -crN Mosaic-src/libnut/system.c Mosaic-src_p2/libnut/system.c
+*** Mosaic-src/libnut/system.c	Thu Jun 27 01:08:52 1996
+--- Mosaic-src_p2/libnut/system.c	Mon Dec  8 01:54:37 2014
+***************
+*** 103,109 ****
+  
+  #ifndef VMS
+  extern int sys_nerr;
+! extern char *sys_errlist[];
+  extern int errno;
+  #endif
+  
+--- 103,109 ----
+  
+  #ifndef VMS
+  extern int sys_nerr;
+! //extern char *sys_errlist[];
+  extern int errno;
+  #endif
+  
+diff -crN Mosaic-src/libwww2/HTTCP.c Mosaic-src_p2/libwww2/HTTCP.c
+*** Mosaic-src/libwww2/HTTCP.c	Thu Jun 27 00:22:48 1996
+--- Mosaic-src_p2/libwww2/HTTCP.c	Mon Dec  8 01:51:33 2014
+***************
+*** 72,78 ****
+  extern int errno;
+  #endif /* errno */
+  
+! extern char *sys_errlist[];		/* see man perror on cernvax */
+  extern int sys_nerr;
+  
+  /*	Report Internet Error
+--- 72,78 ----
+  extern int errno;
+  #endif /* errno */
+  
+! //ZZextern char *sys_errlist[];		/* see man perror on cernvax */
+  extern int sys_nerr;
+  
+  /*	Report Internet Error
+diff -crN Mosaic-src/libwww2/Makefile Mosaic-src_p2/libwww2/Makefile
+*** Mosaic-src/libwww2/Makefile	Thu Jun 20 05:23:16 1996
+--- Mosaic-src_p2/libwww2/Makefile	Mon Dec  8 02:25:22 2014
+***************
+*** 1,13 ****
+  LIBTARGET = libwww.a
+  
+  all: $(LIBTARGET)
+  
+! CFILES = CUkerb.c HTAccess.c HTAlert.c HTAnchor.c HTAtom.c HTSort.c HTChunk.c \
+!   HTFTP.c HTFWriter.c HTFile.c HTFormat.c HTGopher.c HTInit.c HTList.c \
+!   HTMIME.c HTML.c HTMLDTD.c HTMLGen.c HTNews.c HTParse.c HTPlain.c \
+!   HTMosaicHTML.c HTString.c HTTCP.c HTTP.c HTTelnet.c HTWSRC.c HTWriter.c \
+!   SGML.c HTWAIS.c HTIcon.c HTCompressed.c HTAAUtil.c HTAssoc.c HTUU.c \
+!   HTAABrow.c HTMailto.c
+  
+  OBJS = $(CFILES:.c=.o)
+  
+--- 1,67 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ 
++ RANLIB = ranlib
++ 
+  LIBTARGET = libwww.a
+  
+  all: $(LIBTARGET)
+  
+! CFILES = \
+! CUkerb.c \
+! HTAccess.c \
+! HTAlert.c \
+! HTAnchor.c \
+! HTAtom.c \
+! HTSort.c \
+! HTChunk.c \
+! HTFTP.c \
+! HTFWriter.c \
+! HTFile.c \
+! HTFormat.c \
+! HTGopher.c \
+! HTInit.c \
+! HTList.c \
+! HTMIME.c \
+! HTML.c \
+! HTMLDTD.c \
+! HTMLGen.c \
+! HTNews.c \
+! HTParse.c \
+! HTPlain.c \
+! HTMosaicHTML.c \
+! HTString.c \
+! HTTCP.c \
+! HTTP.c \
+! HTTelnet.c \
+! HTWSRC.c \
+! HTWriter.c \
+! SGML.c \
+! HTWAIS.c \
+! HTIcon.c \
+! HTCompressed.c \
+! HTAAUtil.c \
+! HTAssoc.c \
+! HTUU.c \
+! HTAABrow.c \
+! HTMailto.c
+! 
+! # HTPasswd.c \
+! # HTAuth.c \
+! # HTLex.c \
+! # HTGroup.c \
+! # HTACL.c \
+! # HTAAProt.c \
+! # HTAAServ.c \
+! # HTAAFile.c 
+  
+  OBJS = $(CFILES:.c=.o)
+  
+***************
+*** 20,25 ****
+  HTFTP.o: HTFTP.h
+  
+  clean:
+! 	rm $(LIBTARGET) *.o
+  tags:
+  	etags -t *.[ch]
+--- 74,79 ----
+  HTFTP.o: HTFTP.h
+  
+  clean:
+! 	-rm $(LIBTARGET) *.o
+  tags:
+  	etags -t *.[ch]
+diff -crN Mosaic-src/libwww2/Makefile.bak Mosaic-src_p2/libwww2/Makefile.bak
+*** Mosaic-src/libwww2/Makefile.bak	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/libwww2/Makefile.bak	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,79 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CFLAGS = -g -O
++ 
++ RANLIB = ranlib
++ 
++ LIBTARGET = libwww.a
++ 
++ all: $(LIBTARGET)
++ 
++ CFILES = \
++ CUkerb.c \
++ HTAccess.c \
++ HTAlert.c \
++ HTAnchor.c \
++ HTAtom.c \
++ HTSort.c \
++ HTChunk.c \
++ HTFTP.c \
++ HTFWriter.c \
++ HTFile.c \
++ HTFormat.c \
++ HTGopher.c \
++ HTInit.c \
++ HTList.c \
++ HTMIME.c \
++ HTML.c \
++ HTMLDTD.c \
++ HTMLGen.c \
++ HTNews.c \
++ HTParse.c \
++ HTPlain.c \
++ HTMosaicHTML.c \
++ HTString.c \
++ HTTCP.c \
++ HTTP.c \
++ HTTelnet.c \
++ HTWSRC.c \
++ HTWriter.c \
++ SGML.c \
++ HTWAIS.c \
++ HTIcon.c \
++ HTCompressed.c \
++ HTAAUtil.c \
++ HTAssoc.c \
++ HTUU.c \
++ HTAABrow.c \
++ HTMailto.c
++ 
++ # HTPasswd.c \
++ # HTAuth.c \
++ # HTLex.c \
++ # HTGroup.c \
++ # HTACL.c \
++ # HTAAProt.c \
++ # HTAAServ.c \
++ # HTAAFile.c 
++ 
++ OBJS = $(CFILES:.c=.o)
++ 
++ $(LIBTARGET): $(OBJS)
++ 	-rm -f $(LIBTARGET)
++ 	ar rv $(LIBTARGET) $(OBJS)
++ 	$(RANLIB) $(LIBTARGET)
++ 
++ $(OBJS): HTUtils.h
++ HTFTP.o: HTFTP.h
++ 
++ clean:
++ 	-rm $(LIBTARGET) *.o
++ tags:
++ 	etags -t *.[ch]
+Binary files Mosaic-src/libwww2/libwww.a and Mosaic-src_p2/libwww2/libwww.a differ
+diff -crN Mosaic-src/src/Makefile Mosaic-src_p2/src/Makefile
+*** Mosaic-src/src/Makefile	Thu Jul 11 08:22:36 1996
+--- Mosaic-src_p2/src/Makefile	Mon Dec  8 02:26:47 2014
+***************
+*** 1,13 ****
+! All: $(MOSAIC)
+  
+  LIBHTMLW_DIR = ../libhtmlw
+  LIBXMX_DIR = ../libXmx
+  LIBXMX_INC = ../libXmx
+  LIBPNG_DIR = ../libpng
+  
+- PROGRAM_LIBS = $(LIBWWW_DIR)/libwww.a $(LIBHTMLW_DIR)/libhtmlw.a $(LIBXMX_DIR)/libXmx.a $(LIBNUT_DIR)/libnut.a
+- LIBS = $(PROGRAM_LIBS) $(X_LIBS) $(PNG_LIBS) $(DTM_LIBS) $(HDF_LIBS) $(WAIS_LIBS) $(JPEG_LIBS) $(KRB_LIBS) $(MATH_LIB) $(SYS_LIBS)
+- 
+  CFILES = main.c gui.c  gui-dialogs.c gui-menubar.c gui-documents.c gui-news.c\
+    newsrc.c\
+    gui-extras.c mo-www.c mo-dtm.c hotlist.c history.c\
+--- 1,20 ----
+! # Generated automatically from Makefile.in by configure.
+! # @configure_output@
+! # This file is used by Autoconf to make the real Makefile.
+! # DO NOT EDIT THIS FILE!
+! # If you want to change something do it to the Makefile autoconf 
+! # creates. You should never have to edit this file.
+! 
+! CC= gcc
+! LIBS = ../libhtmlw/libhtmlw.a ../libwww2/libwww.a ../libnut/libnut.a ../libXmx/libXmx.a /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
+! CPPFLAGS =  -I/root/mosaicLibs -I/root/mosaicLibs -I.. -I../libwww2
+! CFLAGS = -g -O
+  
+  LIBHTMLW_DIR = ../libhtmlw
+  LIBXMX_DIR = ../libXmx
+  LIBXMX_INC = ../libXmx
+  LIBPNG_DIR = ../libpng
+  
+  CFILES = main.c gui.c  gui-dialogs.c gui-menubar.c gui-documents.c gui-news.c\
+    newsrc.c\
+    gui-extras.c mo-www.c mo-dtm.c hotlist.c history.c\
+***************
+*** 31,41 ****
+  AUXCFILES = hdf-browse.c
+  AUXOBJS = hdf-browse.o
+  
+  hdf-browse.o: hdf-browse.c ../libhtmlw/HTML.h
+! 	$(CC) -c $(CFLAGS) $(AUX_CFLAGS) hdf-browse.c
+  
+  globalhist.o: globalhist.c ../libhtmlw/HTML.h
+! 	$(CC) -c $(CFLAGS) $(AUX_CFLAGS) globalhist.c
+  
+  $(MOSAIC): $(OBJS) $(AUXOBJS) $(HDFOBJS) $(PROGRAM_LIBS) $(DTM_LIBS)
+  	$(PURIFY) $(CC) $(LDFLAGS) -o $(MOSAIC) $(OBJS) $(AUXOBJS) $(HDFOBJS) $(LIBS)
+--- 38,50 ----
+  AUXCFILES = hdf-browse.c
+  AUXOBJS = hdf-browse.o
+  
++ default: $(MOSAIC)
++ 
+  hdf-browse.o: hdf-browse.c ../libhtmlw/HTML.h
+! 	$(CC) -c $(CFLAGS) $(CPPFLAGS) hdf-browse.c
+  
+  globalhist.o: globalhist.c ../libhtmlw/HTML.h
+! 	$(CC) -c $(CFLAGS) $(CPPFLAGS) globalhist.c
+  
+  $(MOSAIC): $(OBJS) $(AUXOBJS) $(HDFOBJS) $(PROGRAM_LIBS) $(DTM_LIBS)
+  	$(PURIFY) $(CC) $(LDFLAGS) -o $(MOSAIC) $(OBJS) $(AUXOBJS) $(HDFOBJS) $(LIBS)
+diff -crN Mosaic-src/src/Makefile.bak Mosaic-src_p2/src/Makefile.bak
+*** Mosaic-src/src/Makefile.bak	Thu Jan  1 00:00:00 1970
+--- Mosaic-src_p2/src/Makefile.bak	Mon Dec  8 02:25:22 2014
+***************
+*** 0 ****
+--- 1,237 ----
++ # Generated automatically from Makefile.in by configure.
++ # @configure_output@
++ # This file is used by Autoconf to make the real Makefile.
++ # DO NOT EDIT THIS FILE!
++ # If you want to change something do it to the Makefile autoconf 
++ # creates. You should never have to edit this file.
++ 
++ CC= gcc
++ LIBS = ../libhtmlw/libhtmlw.a ../libwww2/libwww.a ../libnut/libnut.a ../libXmx/libXmx.a /root/mosaicLibs/libpng.a /root/mosaicLibs/libz.a /root/mosaicLibs/libjpeg.a -lXm -lXmu -lXt -lXext -lSM -lICE -lX11 -lnsl -lm 
++ CPPFLAGS =  -I/root/mosaicLibs -I/root/mosaicLibs -I.. -I../libwww2
++ CFLAGS = -g -O
++ 
++ LIBHTMLW_DIR = ../libhtmlw
++ LIBXMX_DIR = ../libXmx
++ LIBXMX_INC = ../libXmx
++ LIBPNG_DIR = ../libpng
++ 
++ CFILES = main.c gui.c  gui-dialogs.c gui-menubar.c gui-documents.c gui-news.c\
++   newsrc.c\
++   gui-extras.c mo-www.c mo-dtm.c hotlist.c history.c\
++   annotate.c pan.c grpan.c grpan-www.c audan.c globalhist.c img.c\
++   picread.c xpmhash.c xpmread.c gifread.c pixmaps.c\
++   medcut.c mo-hdf.c hotfile.c child.c mailto.c readJPEG.c readPNG.c\
++   accept.c cciServer.c cciBindings.c cciBindings2.c support.c bla.c\
++   comment.c kcms.c md5.c proxy-dialogs.c proxy-misc.c gui-popup.c gui-ftp.c\
++   prefs.c
++ 
++ OBJS = main.o gui.o gui-dialogs.o gui-menubar.o gui-documents.o gui-news.o\
++   newsrc.o\
++   gui-extras.o mo-www.o mo-dtm.o hotlist.o history.o\
++   annotate.o pan.o grpan.o grpan-www.o audan.o globalhist.o img.o\
++   picread.o xpmhash.o xpmread.o gifread.o pixmaps.o\
++   medcut.o mo-hdf.o hotfile.o child.o mailto.o readJPEG.o readPNG.o\
++   accept.o cciServer.o cciBindings.o cciBindings2.o support.o bla.o\
++   comment.o kcms.o md5.o proxy-dialogs.o proxy-misc.o gui-popup.o gui-ftp.o\
++   prefs.o
++ 
++ AUXCFILES = hdf-browse.c
++ AUXOBJS = hdf-browse.o
++ 
++ default: $(MOSAIC)
++ 
++ hdf-browse.o: hdf-browse.c ../libhtmlw/HTML.h
++ 	$(CC) -c $(CFLAGS) $(CPPFLAGS) hdf-browse.c
++ 
++ globalhist.o: globalhist.c ../libhtmlw/HTML.h
++ 	$(CC) -c $(CFLAGS) $(CPPFLAGS) globalhist.c
++ 
++ $(MOSAIC): $(OBJS) $(AUXOBJS) $(HDFOBJS) $(PROGRAM_LIBS) $(DTM_LIBS)
++ 	$(PURIFY) $(CC) $(LDFLAGS) -o $(MOSAIC) $(OBJS) $(AUXOBJS) $(HDFOBJS) $(LIBS)
++ 
++ #HFILES = mosaic.h prefs.h prefs_defs.h xresources.h
++ #$(OBJS): $(HFILES)
++ #hotlist.o hotfile.o: hotlist.h
++ #gui.o: toolbar.h xresources.h ../libhtmlw/HTML.h bitmaps/*.xbm
++ #img.o: ../libhtmlw/HTML.h
++ #gui-documents.o: toolbar.h
++ #comment.o: comment.h
++ #kcms.o: kcms.h
++ #gui-popup.o: gui-popup.h
++ #pixmaps.o: pixmaps/*.xpm
++ #$(PIXMAPS)
++ #mo-dtm.o: ../libhtmlw/HTML.h
++ #prefs.o: prefs.h prefs_defs.h xresources.h
++ 
++ #depend:
++ #	makedepend -m -- $(CFLAGS) -- $(CFILES)
++ 
++ wipe:
++ 	-rm -f Mosaic Mosaic-p Mosaic-q $(OBJS) core
++ clean:
++ 	-rm -f Mosaic Mosaic-p Mosaic-q *.o core
++ tags:
++ 	etags -t *.[ch]
++ 
++ # DO NOT DELETE THIS LINE -- make depend depends on it.
++ 
++ main.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h 
++ main.o: main.h gui.h pan.h child.h globalhist.h cciBindings2.h 
++ main.o: cci.h port.h cciServer.h kcms.h
++ 
++ gui.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h gui.h port.h
++ gui.o: gui-documents.h main.h mo-www.h gui-menubar.h proxy.h pan.h pixmaps.h
++ gui.o: ../libwww2/HTAAUtil.h ../libhtmlw/HTML.h xresources.h cci.h
++ gui.o: pixmaps/*.xpm 
++ gui.o: bitmaps/*.xbm
++ 
++ gui-dialogs.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h
++ gui-dialogs.o: gui-dialogs.h gui-documents.h gui.h mo-www.h
++ gui-dialogs.o: ../libhtmlw/HTML.h ../libnut/system.h
++ 
++ gui-menubar.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h
++ gui-menubar.o: main.h ../libhtmlw/HTML.h gui.h grpan.h gui-ftp.h gui-popup.h
++ gui-menubar.o: hotlist.h gui-dialogs.h gui-news.h cci.h port.h
++ gui-menubar.o: cciBindings.h cciBindings2.h cciServer.h history.h pan.h
++ gui-menubar.o: annotate.h mo-www.h globalhist.h proxy.h
++ gui-menubar.o: ../libwww2/HTAAUtil.h
++ 
++ gui-documents.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h 
++ gui-documents.o: gui.h gui-documents.h gui-extras.h mo-www.h annotate.h 
++ gui-documents.o: history.h ../libhtmlw/HTML.h cci.h port.h cciBindings.h
++ 
++ gui-news.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h gui.h
++ gui-news.o: gui-news.h ../libnut/system.h ../libhtmlw/HTML.h newsrc.h
++ gui-news.o: ../libwww2/HTNews.h ../libwww2/HTAccess.h ../libwww2/HTUtils.h
++ gui-news.o: ../libwww2/HTString.h ../libwww2/HTAnchor.h ../libwww2/HTList.h
++ gui-news.o: ../libwww2/HTAtom.h ../libwww2/HTFormat.h ../libwww2/HTStream.h
++ gui-news.o: ../src/newsrc.h
++ 
++ newsrc.o: mosaic.h newsrc.h ../libXmx/Xmx.h toolbar.h
++ newsrc.o: prefs.h prefs_defs.h
++ 
++ gui-extras.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h gui.h
++ gui-extras.o: gui-extras.h mo-www.h ../libhtmlw/HTML.h ../libnut/system.h
++ 
++ mo-www.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h 
++ mo-www.o: mo-www.h ../libwww2/HTAAUtil.h ../libwww2/HTUtils.h
++ mo-www.o: ../libwww2/HTString.h ../libwww2/tcp.h ../libwww2/HTTCP.h
++ mo-www.o: ../libwww2/HTParse.h ../libwww2/HTAccess.h ../libwww2/HTAnchor.h
++ mo-www.o: ../libwww2/HTList.h ../libwww2/HTAtom.h ../libwww2/HTFormat.h
++ mo-www.o: ../libwww2/HTStream.h ../libwww2/HTML.h ../libwww2/HTMLDTD.h
++ mo-www.o: ../libwww2/SGML.h ../libwww2/HText.h ../libwww2/HTInit.h
++ mo-www.o: gui-dialogs.h gui.h
++ 
++ mo-dtm.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h mo-dtm.h
++ 
++ hotlist.o: mosaic.h ../libXmx/Xmx.h toolbar.h
++ hotlist.o: prefs.h prefs_defs.h hotlist.h hotfile.h gui.h
++ hotlist.o: mo-www.h bitmaps/hotlist.xbm ../libnut/system.h
++ 
++ history.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h 
++ history.o: gui.h mo-www.h gui-popup.h ../libhtmlw/HTML.h
++ history.o: hotlist.h ../libwww2/HTAAUtil.h
++ 
++ annotate.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h gui.h
++ annotate.o: mo-www.h pan.h grpan.h bitmaps/annotate.xbm ../libnut/system.h
++ 
++ pan.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h pan.h
++ pan.o: ../libhtmlw/HTML.h
++ 
++ grpan.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h grpan.h
++ grpan.o: grpan-www.h pan.h mo-www.h
++ 
++ grpan-www.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h
++ grpan-www.o: grpan-www.h
++ 
++ audan.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h audan.h
++ audan.o: gui.h pan.h mo-www.h ../libnut/system.h
++ 
++ globalhist.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h
++ globalhist.o: mo-www.h globalhist.h ../libhtmlw/HTML.h ../libnut/system.h
++ 
++ img.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h gui.h img.h
++ img.o: mo-www.h globalhist.h picread.h ../libhtmlw/HTML.h cci.h port.h
++ img.o: bitmaps/gopher_image.xbm bitmaps/gopher_movie.xbm
++ img.o: bitmaps/gopher_menu.xbm bitmaps/gopher_text.xbm
++ img.o: bitmaps/gopher_sound.xbm bitmaps/gopher_index.xbm
++ img.o: bitmaps/gopher_telnet.xbm bitmaps/gopher_binary.xbm
++ img.o: bitmaps/gopher_unknown.xbm
++ 
++ picread.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h 
++ picread.o: picread.h gifread.h xpmread.h readJPEG.h readPNG.h
++ 
++ xpmhash.o: xpm.h
++ 
++ xpmread.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h xpmread.h
++ 
++ gifread.o: gifread.h
++ 
++ pixmaps.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h 
++ pixmaps.o: pixmaps.h xpmread.h xpm.h
++ pixmaps.o: pixmaps/*.xpm
++ 
++ mo-hdf.o: mosaic.h ../libXmx/Xmx.h toolbar.h
++ mo-hdf.o: prefs.h prefs_defs.h mo-hdf.h mo-dtm.h
++ 
++ hotfile.o: mosaic.h ../libXmx/Xmx.h toolbar.h
++ hotfile.o: prefs.h prefs_defs.h hotlist.h mo-www.h ../libhtmlw/HTML.h
++ 
++ child.o: child.h list.h
++ 
++ mailto.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h gui.h 
++ mailto.o: ../libnut/url-utils.h ../libnut/system.h
++ 
++ readJPEG.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h readJPEG.h
++ 
++ readPNG.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h readPNG.h
++ 
++ accept.o: port.h accept.h memStuffForPipSqueeks.h
++ 
++ cciServer.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h
++ cciServer.o: memStuffForPipSqueeks.h cci.h port.h accept.h
++ 
++ cciBindings.o: cci.h port.h mosaic.h ../libXmx/Xmx.h
++ cciBindings.o: toolbar.h prefs.h prefs_defs.h gui.h
++ cciBindings.o: cciServer.h cciBindings.h cciBindings2.h pan.h mo-www.h
++ cciBindings.o: annotate.h ../libhtmlw/HTML.h
++ 
++ cciBindings2.o: mosaic.h ../libXmx/Xmx.h
++ cciBindings2.o: toolbar.h prefs.h prefs_defs.h gui.h cci.h port.h
++ cciBindings2.o: cciBindings2.h cciServer.h list.h memStuffForPipSqueeks.h
++ cciBindings2.o: ../libwww2/HTFormat.h ../libwww2/HTUtils.h
++ cciBindings2.o: ../libwww2/HTString.h 
++ cciBindings2.o: ../libwww2/HTStream.h ../libwww2/HTAtom.h ../libwww2/HTList.h
++ cciBindings2.o: ../libwww2/HTAnchor.h
++ 
++ support.o: cci.h port.h
++ 
++ bla.o: cciServer.h cci.h port.h list.h
++ bla.o: memStuffForPipSqueeks.h ../libwww2/HTPlain.h ../libwww2/HTStream.h
++ bla.o: ../libwww2/HTUtils.h ../libwww2/HTString.h 
++ bla.o: ../libwww2/HTAnchor.h ../libwww2/HTList.h ../libwww2/HTAtom.h 
++ bla.o: ../libwww2/HTFormat.h ../libwww2/HText.h ../libwww2/HTFile.h 
++ bla.o: ../libwww2/HTAccess.h ../libwww2/tcp.h ../libwww2/HTML.h
++ bla.o: ../libwww2/HTMLDTD.h ../libwww2/SGML.h ../libwww2/HTCompressed.h
++ 
++ comment.o: mosaic.h ../libXmx/Xmx.h toolbar.h
++ comment.o: prefs.h prefs_defs.h gui.h comment.h
++ 
++ kcms.o: kcms.h
++ 
++ md5.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h md5.h
++ 
++ proxy-dialogs.o: proxy.h mosaic.h ../libXmx/Xmx.h
++ proxy-dialogs.o: toolbar.h prefs.h prefs_defs.h
++ 
++ proxy-misc.o: proxy.h
++ 
++ gui-popup.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h
++ gui-popup.o: gui-ftp.h mo-www.h gui-popup.h ../libhtmlw/HTML.h hotlist.h
++ gui-popup.o: gui-documents.h
++ 
++ gui-ftp.o: mosaic.h ../libXmx/Xmx.h toolbar.h
++ gui-ftp.o: prefs.h prefs_defs.h gui.h gui-ftp.h gui-popup.h
++ gui-ftp.o: ../libhtmlw/HTML.h hotlist.h ../libnut/system.h
++ 
++ prefs.o: mosaic.h ../libXmx/Xmx.h toolbar.h prefs.h prefs_defs.h
+Binary files Mosaic-src/src/Mosaic and Mosaic-src_p2/src/Mosaic differ
+diff -crN Mosaic-src/src/comment.c Mosaic-src_p2/src/comment.c
+*** Mosaic-src/src/comment.c	Wed Jun 26 22:56:41 1996
+--- Mosaic-src_p2/src/comment.c	Mon Dec  8 02:03:52 2014
+***************
+*** 62,67 ****
+--- 62,68 ----
+  #include "../config.h"
+  #include "mosaic.h"
+  #include "gui.h"
++ #define COMMENT_C 
+  #include "comment.h"
+  
+  
+diff -crN Mosaic-src/src/comment.h Mosaic-src_p2/src/comment.h
+*** Mosaic-src/src/comment.h	Thu Jun  6 20:01:43 1996
+--- Mosaic-src_p2/src/comment.h	Mon Dec  8 02:03:39 2014
+***************
+*** 67,72 ****
+--- 67,73 ----
+  #ifndef _COMMENT_H
+  #define _COMMENT_H
+  
++ #ifdef COMMENT_C
+  char *comment_card_html_top= \
+  "<title>\n" \
+  "	Comment Card for Mosaic 2.6\n" \
+***************
+*** 293,298 ****
+--- 294,300 ----
+  "\n" \
+  "</form>\n" \
+  "\n";
++ #endif /* COMMENT_C */
+  
+  #endif
+  
+diff -crN Mosaic-src/src/gui-dialogs.c Mosaic-src_p2/src/gui-dialogs.c
+*** Mosaic-src/src/gui-dialogs.c	Thu Jul 18 07:49:41 1996
+--- Mosaic-src_p2/src/gui-dialogs.c	Mon Dec  8 01:56:01 2014
+***************
+*** 88,94 ****
+  /*swp -- for ~ expansion*/
+  #include <pwd.h>
+  extern int sys_nerr;
+! extern char *sys_errlist[];
+  extern int errno;
+  #define __MAX_HOME_LEN__ 256
+  int pathEval(char *dest, char *src);
+--- 88,94 ----
+  /*swp -- for ~ expansion*/
+  #include <pwd.h>
+  extern int sys_nerr;
+! //extern char *sys_errlist[];
+  extern int errno;
+  #define __MAX_HOME_LEN__ 256
+  int pathEval(char *dest, char *src);
+diff -crN Mosaic-src/src/readPNG.c Mosaic-src_p2/src/readPNG.c
+*** Mosaic-src/src/readPNG.c	Sun Jun 30 12:30:00 1996
+--- Mosaic-src_p2/src/readPNG.c	Mon Dec  8 02:02:43 2014
+***************
+*** 159,170 ****
+      }
+  
+      /* SWP -- Hopefully to fix cores on bad PNG files */
+!     png_set_message_fn(png_ptr,png_get_msg_ptr(png_ptr),NULL,NULL); 
+  
+          /* initialize the structures */
+      png_info_init(info_ptr);
+      png_read_init(png_ptr);
+!     
+          /* set up the input control */
+      png_init_io(png_ptr, infile);
+      
+--- 159,172 ----
+      }
+  
+      /* SWP -- Hopefully to fix cores on bad PNG files */
+!     /*png_set_message_fn(png_ptr,png_get_msg_ptr(png_ptr),NULL,NULL); */
+  
+          /* initialize the structures */
+      png_info_init(info_ptr);
+      png_read_init(png_ptr);
+!    /* SWP -- Hopefully to fix cores on bad PNG files */
+!      /* PCK -- Moved to after png_read_init() as per libpng 0.88+ */
+!      png_set_error_fn(png_ptr,png_get_error_ptr(png_ptr),NULL,NULL);  /* PCK */ 
+          /* set up the input control */
+      png_init_io(png_ptr, infile);
+      
