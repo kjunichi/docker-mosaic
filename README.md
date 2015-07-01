@@ -13,7 +13,7 @@ docker run -p 6080:6080 -d kjunichi/mosaic /startup.sh
 open http://`boot2docker ip`:6080/vnc.html
 ```
 
-## Othre
+## Other
 
 open your browser and access to the following url:
 
