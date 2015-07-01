@@ -20,3 +20,9 @@ open your browser and access to the following url:
 ```
 http://localhost:6080/vnc.html
 ```
+
+## Password
+
+```txt
+1234
+```
